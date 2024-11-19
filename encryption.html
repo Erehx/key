@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ByteShift by Hein Htet Aung - Encryption</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        h2 {
+            text-align: center;
+            color: #555;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"], input[type="file"] {
+            padding: 8px;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+
+        #result h3 {
+            font-size: 18px;
+        }
+
+        #output {
+            font-size: 16px;
+            color: #333;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            white-space: pre-wrap; /* To preserve text formatting */
+            word-wrap: break-word; /* To handle long words */
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Styling for download button */
+        #downloadBtn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        #downloadBtn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Decryption button - top-right corner */
+        #decryptionBtn {
+            position: absolute;
+            top: 20px;
+            right: 45%;
+            padding: 10px 15px;
+            background-color: #ff5722;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        #decryptionBtn:hover {
+            background-color: #e64a19;
+        }
+    </style>
+</head>
+<body>
+    <!-- Decryption Button -->
+    <a href="decryption.html" id="decryptionBtn">Go to Decryption</a>
+
+    <div class="container">
+        <h1>ByteShift by Hein Htet Aung</h1>
+        <h2>Encryption Tool</h2>
+
+        <!-- Encryption Form -->
+        <form id="encryptionForm">
+            <label for="text">Enter Text to Encrypt:</label><br>
+            <input type="text" id="text" placeholder="Enter text" required>
+            <button type="submit">Encrypt</button>
+        </form>
+
+        <div id="uploadSection">
+            <label for="fileInput">Or Upload a Text File:</label>
+            <input type="file" id="fileInput" accept=".txt"><br><br>
+        </div>
+
+        <div id="result">
+            <h3>Encryption Result:</h3>
+            <p id="output"></p>
+            <a id="downloadBtn" href="#" style="display:none;" download="result.txt">Download Result as TXT</a>
+        </div>
+    </div>
+
+    <script>
+        // Handle form submission for direct text input
+        document.getElementById("encryptionForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const text = document.getElementById("text").value;
+
+            // Encrypt the entered text
+            const result = encryptToDecimalLetters(text);
+            document.getElementById("output").textContent = `Encrypted Text: ${result}`;
+
+            // Show download button and set the file content
+            const downloadLink = document.getElementById("downloadBtn");
+            downloadLink.style.display = "block";  // Show the download button
+            const fileContent = new Blob([result], { type: 'text/plain' });
+            const fileURL = URL.createObjectURL(fileContent);
+            downloadLink.href = fileURL;
+        });
+
+        // Handle file upload for encryption
+        document.getElementById("fileInput").addEventListener("change", function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const fileContent = e.target.result;
+
+                    // Encrypt the content of the uploaded file
+                    const result = encryptToDecimalLetters(fileContent);
+
+                    // Display result and allow download
+                    document.getElementById("output").textContent = result;
+
+                    // Show download button
+                    const downloadLink = document.getElementById("downloadBtn");
+                    downloadLink.style.display = "block";
+                    const fileBlob = new Blob([result], { type: 'text/plain' });
+                    const fileURL = URL.createObjectURL(fileBlob);
+                    downloadLink.href = fileURL;
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // Encryption function
+        function encryptToDecimalLetters(text) {
+            let binaryData = '';
+            for (let char of text) {
+                let binaryChar = char.charCodeAt(0).toString(2).padStart(8, '0');
+                binaryData += binaryChar;
+            }
+
+            let decimalData = '';
+            for (let i = 0; i < binaryData.length; i += 4) {
+                let chunk = binaryData.slice(i, i + 4);
+                decimalData += String.fromCharCode(parseInt(chunk, 2) + 97); // Convert to letter starting from 'a'
+            }
+
+            return decimalData;
+        }
+    </script>
+</body>
+</html>
