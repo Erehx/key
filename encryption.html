@@ -3,48 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ByteShift by Hein Htet Aung - Encryption</title>
+    <title>Encryption</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f4f7;
             margin: 0;
             padding: 0;
+            background-color: #f0f4f7;
         }
 
         .container {
-            width: 50%;
+            width: 90%;
+            max-width: 500px;
             margin: 50px auto;
             padding: 20px;
             background-color: white;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
+            text-align: center;
         }
 
         h1 {
-            text-align: center;
             color: #333;
+            font-size: 1.8em;
         }
 
         h2 {
-            text-align: center;
             color: #555;
+            font-size: 1.2em;
+            margin-bottom: 20px;
         }
 
         form {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center;
         }
 
         label {
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
+            font-size: 1em;
         }
 
         input[type="text"], input[type="file"] {
-            padding: 8px;
-            font-size: 16px;
+            padding: 10px;
+            font-size: 1em;
             width: 100%;
             margin-bottom: 15px;
             border: 1px solid #ddd;
@@ -52,10 +56,10 @@
         }
 
         button {
-            padding: 10px 15px;
+            padding: 12px 20px;
             background-color: #4CAF50;
             color: white;
-            font-size: 16px;
+            font-size: 1em;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -71,46 +75,46 @@
         }
 
         #result h3 {
-            font-size: 18px;
+            font-size: 1em;
+            margin-bottom: 10px;
         }
 
         #output {
-            font-size: 16px;
+            font-size: 1em;
             color: #333;
             background-color: #f9f9f9;
             padding: 15px;
             border: 1px solid #ddd;
             border-radius: 8px;
-            white-space: pre-wrap; /* To preserve text formatting */
-            word-wrap: break-word; /* To handle long words */
+            white-space: pre-wrap;
+            word-wrap: break-word;
             font-weight: bold;
             color: #333;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        /* Styling for download button */
         #downloadBtn {
             background-color: #007bff;
             color: white;
             padding: 10px 15px;
             border-radius: 5px;
-            cursor: pointer;
             text-decoration: none;
+            display: inline-block;
         }
 
         #downloadBtn:hover {
             background-color: #0056b3;
         }
 
-        /* Decryption button - top-right corner */
+        /* Navigation button */
         #decryptionBtn {
             position: absolute;
             top: 20px;
-            right: 45%;
-            padding: 10px 15px;
+            right: 50%;
             background-color: #ff5722;
             color: white;
-            font-size: 16px;
+            padding: 10px 15px;
+            font-size: 1em;
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -120,55 +124,87 @@
         #decryptionBtn:hover {
             background-color: #e64a19;
         }
+
+        /* Responsive design */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5em;
+            }
+
+            h2 {
+                font-size: 1em;
+            }
+
+            input[type="text"], input[type="file"] {
+                font-size: 0.9em;
+            }
+
+            button, #decryptionBtn {
+                font-size: 0.9em;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Decryption Button -->
+    <!-- Navigation Button -->
     <a href="decryption.html" id="decryptionBtn">Go to Decryption</a>
 
     <div class="container">
-        <h1>ByteShift by Hein Htet Aung</h1>
+        <h1>Binimal by Hein Htet Aung</h1>
         <h2>Encryption Tool</h2>
 
         <!-- Encryption Form -->
         <form id="encryptionForm">
-            <label for="text">Enter Text to Encrypt:</label><br>
-            <input type="text" id="text" placeholder="Enter text" required>
+            <label for="text">Enter Text to Encrypt:</label>
+            <input type="text" id="text" placeholder="Enter text here" required>
             <button type="submit">Encrypt</button>
         </form>
 
-        <div id="uploadSection">
-            <label for="fileInput">Or Upload a Text File:</label>
-            <input type="file" id="fileInput" accept=".txt"><br><br>
-        </div>
+        <!-- Upload File Section -->
+        <label for="fileInput">Or Upload a Text File:</label>
+        <input type="file" id="fileInput" accept=".txt">
 
+        <!-- Encryption Result -->
         <div id="result">
             <h3>Encryption Result:</h3>
             <p id="output"></p>
-            <a id="downloadBtn" href="#" style="display:none;" download="result.txt">Download Result as TXT</a>
+            <a id="downloadBtn" href="#" style="display:none;" download="encrypted_result.txt">Download Encrypted Result</a>
+<footer>
+            &copy; 2024 Binimal by Hein Htet Aung. All rights reserved.
+        </footer>
         </div>
     </div>
 
     <script>
-        // Handle form submission for direct text input
+        // Function to scroll to the result section
+        function scrollToResult() {
+            const resultSection = document.getElementById("result");
+            resultSection.scrollIntoView({ behavior: "smooth" });
+        }
+
+        // Handle encryption of input text
         document.getElementById("encryptionForm").addEventListener("submit", function(event) {
             event.preventDefault();
 
             const text = document.getElementById("text").value;
 
-            // Encrypt the entered text
-            const result = encryptToDecimalLetters(text);
-            document.getElementById("output").textContent = `Encrypted Text: ${result}`;
+            // Encrypt the text
+            const encrypted = encryptToDecimalLetters(text);
 
-            // Show download button and set the file content
+            // Display the result
+            document.getElementById("output").textContent = `Encrypted Text: ${encrypted}`;
+
+            // Enable and prepare download button
             const downloadLink = document.getElementById("downloadBtn");
-            downloadLink.style.display = "block";  // Show the download button
-            const fileContent = new Blob([result], { type: 'text/plain' });
-            const fileURL = URL.createObjectURL(fileContent);
-            downloadLink.href = fileURL;
+            downloadLink.style.display = "inline-block";
+            const fileContent = new Blob([encrypted], { type: 'text/plain' });
+            downloadLink.href = URL.createObjectURL(fileContent);
+
+            // Scroll to the result
+            scrollToResult();
         });
 
-        // Handle file upload for encryption
+        // Handle file upload and encryption
         document.getElementById("fileInput").addEventListener("change", function(event) {
             const file = event.target.files[0];
             if (file) {
@@ -176,18 +212,20 @@
                 reader.onload = function(e) {
                     const fileContent = e.target.result;
 
-                    // Encrypt the content of the uploaded file
-                    const result = encryptToDecimalLetters(fileContent);
+                    // Encrypt the content of the file
+                    const encrypted = encryptToDecimalLetters(fileContent);
 
-                    // Display result and allow download
-                    document.getElementById("output").textContent = result;
+                    // Display the result
+                    document.getElementById("output").textContent = `Encrypted Text: ${encrypted}`;
 
-                    // Show download button
+                    // Enable and prepare download button
                     const downloadLink = document.getElementById("downloadBtn");
-                    downloadLink.style.display = "block";
-                    const fileBlob = new Blob([result], { type: 'text/plain' });
-                    const fileURL = URL.createObjectURL(fileBlob);
-                    downloadLink.href = fileURL;
+                    downloadLink.style.display = "inline-block";
+                    const fileBlob = new Blob([encrypted], { type: 'text/plain' });
+                    downloadLink.href = URL.createObjectURL(fileBlob);
+
+                    // Scroll to the result
+                    scrollToResult();
                 };
                 reader.readAsText(file);
             }
@@ -201,13 +239,13 @@
                 binaryData += binaryChar;
             }
 
-            let decimalData = '';
+            let encryptedData = '';
             for (let i = 0; i < binaryData.length; i += 4) {
                 let chunk = binaryData.slice(i, i + 4);
-                decimalData += String.fromCharCode(parseInt(chunk, 2) + 97); // Convert to letter starting from 'a'
+                encryptedData += String.fromCharCode(parseInt(chunk, 2) + 97); // Convert to letters (a-j)
             }
 
-            return decimalData;
+            return encryptedData;
         }
     </script>
 </body>
