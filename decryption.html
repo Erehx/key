@@ -11,7 +11,11 @@
             padding: 0;
             background-color: #f0f4f7;
         }
-
+footer {
+            margin-top: 30px;
+            font-size: 0.8em;
+            color: #aaa;
+        }
         .container {
             width: 90%;
             max-width: 500px;
@@ -110,7 +114,7 @@
         #encryptionBtn {
             position: absolute;
             top: 20px;
-            right: 50%;
+            right: 45%;
             background-color: #ff5722;
             color: white;
             padding: 10px 15px;
@@ -147,17 +151,17 @@
 </head>
 <body>
     <!-- Navigation Button -->
-    <a href="encryption.html" id="encryptionBtn">Go to Encryption</a>
+    <a href="encryption.html" id="encryptionBtn">Go to Encryption<br>စာဝှက်ရန်</a>
 
     <div class="container">
         <h1>Binimal by Hein Htet Aung</h1>
-        <h2>Decryption Tool</h2>
+        <h2>Decryption Tool(စာဖြည်ခြင်း)</h2>
 
         <!-- Decryption Form -->
         <form id="decryptionForm">
-            <label for="text">Enter Text to Decrypt:</label>
+            <label for="text">Enter Text to Decrypt:<br>စာဝှက်ကိုထည့်ပါ။</label>
             <input type="text" id="text" placeholder="Enter encrypted text here" required>
-            <button type="submit">Decrypt</button>
+            <button type="submit">Decrypt(စာဖြည်ရန်)</button>
         </form>
 
         <!-- Upload File Section -->
@@ -169,6 +173,7 @@
             <h3>Decryption Result:</h3>
             <p id="output"></p>
             <a id="downloadBtn" href="#" style="display:none;" download="decrypted_result.txt">Download Decrypted Result</a>
+<p>အခက်အခဲရှိပါက @sakai2811(Telegram) သို့မေးမြန်းနိုင်ပါသည်။</p>
 <footer>
             &copy; 2024 Binimal by Hein Htet Aung. All rights reserved.
         </footer>

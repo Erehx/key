@@ -110,7 +110,7 @@
         #decryptionBtn {
             position: absolute;
             top: 20px;
-            right: 50%;
+            right: 45%;
             background-color: #ff5722;
             color: white;
             padding: 10px 15px;
@@ -124,7 +124,11 @@
         #decryptionBtn:hover {
             background-color: #e64a19;
         }
-
+footer {
+            margin-top: 30px;
+            font-size: 0.8em;
+            color: #aaa;
+        }
         /* Responsive design */
         @media (max-width: 480px) {
             h1 {
@@ -147,17 +151,17 @@
 </head>
 <body>
     <!-- Navigation Button -->
-    <a href="decryption.html" id="decryptionBtn">Go to Decryption</a>
+    <a href="decryption.html" id="decryptionBtn">Go to Decryption<br>စာပြန်ဖြည်ရန်</a>
 
     <div class="container">
         <h1>Binimal by Hein Htet Aung</h1>
-        <h2>Encryption Tool</h2>
+        <h2>Encryption Tool (စာဝှက်ခြင်း)</h2>
 
         <!-- Encryption Form -->
         <form id="encryptionForm">
-            <label for="text">Enter Text to Encrypt:</label>
+            <label for="text">Enter Text to Encrypt:<br>သင်ရိုက်လိုသောenglishစာကိုထည့်ပါ။</label>
             <input type="text" id="text" placeholder="Enter text here" required>
-            <button type="submit">Encrypt</button>
+            <button type="submit">Encrypt(စာဝှက်ပါ။)</button>
         </form>
 
         <!-- Upload File Section -->
@@ -169,6 +173,7 @@
             <h3>Encryption Result:</h3>
             <p id="output"></p>
             <a id="downloadBtn" href="#" style="display:none;" download="encrypted_result.txt">Download Encrypted Result</a>
+<p>အခက်အခဲရှိပါက @sakai2811(Telegram) သို့မေးမြန်းနိုင်ပါသည်။</p>
 <footer>
             &copy; 2024 Binimal by Hein Htet Aung. All rights reserved.
         </footer>
